@@ -11,7 +11,7 @@
     <title>Catalogo</title>
 </head>
 <body>
-    <div>
+    <div class="mt-4 ms-4">
         <?php
         if (isset($_GET["usuario"])) {
             $usuario = $_GET["usuario"];
@@ -19,22 +19,32 @@
             $usuario = "";
         }
         ?>
-        <h1>Catálogo</h1>
-        <div>
-            <a href="login.php"><input type="button" value="Login" class="btn border-2"></a>
-            <a href="cesta.php"><input type="button" value="Acceder al carrito" class="btn border-2"></a>
-            <a href="logout.php"><input type="button" value="Cerrar sesión" class="btn border-2"></a>
+        <h1 class="text-center mb-3 me-5">Store</h1>
+        <div class="text-center mb-5 ms-5 justify-content-center">
+            <a href="login.php"><input type="button" value="Login" class="btn border-3 btn-dark shadow-sm me-5"></a>
+            <a href="cesta.php"><input type="button" value="Acceder al carrito" class="btn border-3 btn-dark shadow-sm me-5"></a>
+            <a href="logout.php"><input type="button" value="Cerrar sesión" class="btn border-3 btn-dark shadow-sm me-5"></a>
         </div>
-        <div>
+        <div class="d-flex flex-wrap justify-content-center justify-content-around me-4 mb-5">
             <?php
                 include "funciones.php";
                 $productos = getProductos();
                 foreach ($productos as $producto) {
-                    echo '<div>';
-                    echo '<a href= detalle.php?id='.$producto["id"].'><img height=225px src = imagenes/'.$producto["imagen"].'></a><br>';
-                    echo $producto["nombre"].'<br>';
-                    echo $producto["precio"].'$<br>';
+                    echo '<div class="border border-1 rounded p-4 shadow mt-3">';
+                    echo '<a href= detalle.php?id='.$producto["id"].'><img class="mb-2" height=225px src = imagenes/'.$producto["imagen"].'></a><br>';
+                    echo '<div class="row text-center">';
+                    echo '<div class="col">';
+                    echo '<p>'.$producto["nombre"].'</p>';
+                    echo '</div>';
+                    echo '<div class="col">';
+                    echo '<p>'.$producto["precio"].'$</p>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '<div class="row">';
+                    echo '<div class="col text-center">';
                     echo '<a href= cesta.php?id='.$producto["id"].'><img height=25px src="iconos/shopping-cart.png"></a>';
+                    echo '</div>';
+                    echo '</div>';
                     echo '</div>';
                 }
             ?>

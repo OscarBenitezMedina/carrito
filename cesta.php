@@ -15,35 +15,67 @@
             include "funciones.php";
             $productos = getProductos();
             session_start();
+            $total = [];
         ?>
         <?php
             if (isset($_SESSION["usuario"])) {
+                if (isset($_GET['id'])) {
+                    $nuevo = $_GET['id'];
+                    
+                    if (!isset($_SESSION[$nuevo])) {
+                        $_SESSION[$nuevo] = 1;
+                    }
+                    else {
+                        $accion = $_GET['valor'];
+                        if ($accion == 'poner') {
+                        ++$_SESSION[$nuevo];
+                        } else {
+                            --$_SESSION[$nuevo];
+                        }
+                        if ($_SESSION[$nuevo] == 0) {
+                            unset($_SESSION[$nuevo]);
+                        }
+                    }  
+                }
                 $carrito = $_SESSION;
-                print_r($carrito);
-                foreach ($carrito as $articulo) {
-                    if ($articulo != $_SESSION["usuario"]) {
+                foreach ($carrito as $key => $value) {
+                    if ($key != $_SESSION["usuario"]) {
                         foreach ($productos as $producto) {
-                            if ($producto["id"] == $articulo) {
-                                 echo '<div>';
+                            if ($producto["id"] == $key) {
+                                echo '<div>';
                                 echo '<a href= detalle.php?id='.$producto["id"].'><img height=225px src = imagenes/'.$producto["imagen"].'></a><br>';
                                 echo $producto["nombre"].'<br>';
-                                echo '<button  type="submit" name="borrar" class="btn border-2 me-3">borrar</button>';
+                                echo "Cantidad: ".$value;
+                                echo '<a href= cesta.php?id='.$producto["id"].'&valor=poner>Poner</a><br>';
+                                echo '<a href= cesta.php?id='.$producto["id"].'&valor=borrar>Quitar</a>';
+                                $total_producto = costeProducto($producto["precio"], $_SESSION[$producto["id"]]);
+                                echo 'Total: '.$total_producto.'$<br>';
                                 echo '</div>';
+                                array_push($total, $total_producto);
                             } 
                         }
-                        if (isset($_GET["borrar"])) {
-                            #unset($_SESSION[]);
-                        }
+                        
                     }
                 }
-            
+                if (count($carrito) > 1) {
+                    $compra = totalCompra($total);
+                    echo 'Total de la compra: '.$compra.'$<br>';
+                    $gastosEnvio = $compra + 5;
+                    if ($compra > 100 ) {
+                        $gastosEnvio = $compra;
+                    }
+                    echo 'Compra + gastos de envío: '.$gastosEnvio.'$';
+                    echo '<a href= confirmacion.php>Tramitar compra</a>';
+                } else {
+                    echo 'El carrito está vacío';
+                }
+                    
             } else {
-                echo "Para añadir artículos al carrito inicie sesión";
-            }
-            
+                    echo "Para añadir artículos al carrito inicie sesión"; 
+                }
             ?>
         <a href="index.php"><input type="button" value="Volver" class="btn border-2"></a>
         
     </div>
 </body>
-
+</html>

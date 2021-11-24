@@ -23,6 +23,7 @@
         <div>
             <a href="login.php"><input type="button" value="Login" class="btn border-2"></a>
             <a href="cesta.php"><input type="button" value="Acceder al carrito" class="btn border-2"></a>
+            <a href="logout.php"><input type="button" value="Cerrar sesión" class="btn border-2"></a>
         </div>
         <div>
             <?php
@@ -32,6 +33,7 @@
                     echo '<div>';
                     echo '<a href= detalle.php?id='.$producto["id"].'><img height=225px src = imagenes/'.$producto["imagen"].'></a><br>';
                     echo $producto["nombre"].'<br>';
+                    echo $producto["precio"].'$<br>';
                     echo '<a href= cesta.php?id='.$producto["id"].'><img height=25px src="iconos/shopping-cart.png"></a>';
                     echo '</div>';
                 }

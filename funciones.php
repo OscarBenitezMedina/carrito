@@ -1,8 +1,8 @@
 <?php
     function getProductos() {
         $productos = [];
-        if (file_exists("lista_productos.json")) {
-            $datosEnJson = file_get_contents("lista_productos.json", true);
+        if (file_exists("dataBase/lista_productos.json")) {
+            $datosEnJson = file_get_contents("dataBase/lista_productos.json", true);
             $productos = json_decode($datosEnJson, true);
         }
         return $productos;
@@ -11,8 +11,8 @@
     {
         $productos = [];
         $p = [];
-        if (file_exists("lista_productos.json")) {
-            $datosEnJson = file_get_contents("lista_productos.json", true);
+        if (file_exists("dataBase/lista_productos.json")) {
+            $datosEnJson = file_get_contents("dataBase/lista_productos.json", true);
             $productos = json_decode($datosEnJson, true);
             foreach ($productos as $p) {
                 if ($p["id"] == $id) {
@@ -32,8 +32,8 @@
     function leerUsuarios()
     {
         $usuarios = [];
-        if (file_exists("usuarios.json")) {
-            $datosEnJson = file_get_contents("usuarios.json", true);
+        if (file_exists("dataBase/usuarios.json")) {
+            $datosEnJson = file_get_contents("dataBase/usuarios.json", true);
             $usuarios = json_decode($datosEnJson, true);
         }
 
@@ -57,6 +57,18 @@
         }
 
     }
+    function costeProducto($precio, $cantidad) {
+        $total = $precio * $cantidad;
+        return $total;
+    }
+    function totalCompra($total) {
+        $compra = array_sum($total);
+        return $compra;
+    }
+    /*function menos($key) {
+        $_SESSION
+    }
+
 /*
     Carrito de la compra. Añadir producto a la cesta.
 
